@@ -16,6 +16,7 @@ function ImageForm() {
       album_id: 23} 
     const imagesRef = collection(db, "images");
     const docRef = await addDoc(imagesRef, img);
+    inputRef.current.value="";
   };
 
   return (
