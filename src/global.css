@@ -2,7 +2,7 @@
   width: 255px;
   background-color: aqua;
   height: 255px;
-  
+  margin: 10px;
 }
 .album_thumbnail {
   flex: 3;
@@ -10,6 +10,7 @@
 
 .album_title {
   flex: 1;
+  
 }
 
 .form{

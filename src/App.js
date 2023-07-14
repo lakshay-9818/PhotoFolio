@@ -3,7 +3,8 @@ import Navbar from "./components/Navbar";
 import Album from "./components/Album";
 import './global.css'
 function App() {
-    let album_id =20;
+    let album_id =null;
+  
   return (
     <div className="App">
       <Navbar />
