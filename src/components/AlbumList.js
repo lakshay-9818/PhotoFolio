@@ -11,9 +11,6 @@ function AlbumList() {
         <AlbumTile/>
         <AlbumTile/>
         <AlbumTile/>
-       
-        
-        
     </div>
   )
 }

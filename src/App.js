@@ -1,15 +1,15 @@
-import Gallery from "./components/Gallery";
 import Navbar from "./components/Navbar";
-import Album from "./components/Album";
-import './global.css'
+import "./global.css";
+import { AlbumProvider } from "./context/AlbumContext";
+import MainBody from "./MainBody";
 function App() {
-    let album_id =20;
   return (
-    <div className="App">
-      <Navbar />
-      {album_id?<Album album_id={album_id}/>:<Gallery/>}
-      
-    </div>
+    <AlbumProvider>
+      <div className="App">
+        <Navbar />
+        <MainBody />
+      </div>
+    </AlbumProvider>
   );
 }
 
