@@ -2,15 +2,16 @@ import React from 'react'
 import "../"
 import ImageTile from './ImageTile'
 function ImageList() {
+  const images=["khgd","fgdjyf","KUYG"];
+
   return (
     <div className='border d-flex flex-wrap justify-content-start'>
-      <ImageTile/>
-      <ImageTile/>
-      <ImageTile/>
-      <ImageTile/>
-      <ImageTile/>
-      <ImageTile/>
-      <ImageTile/>
+      
+      {images.map((image) => (
+        <ImageTile
+         image={image}
+         />
+      ))}
     </div>
   )
 }
