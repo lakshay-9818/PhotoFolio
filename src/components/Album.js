@@ -2,10 +2,6 @@ import React,{useState} from 'react'
 import ImageList from './ImageList'
 import ImageForm from './ImageForm'
 
-// import firebase methods here
-import {doc, collection, addDoc, updateDoc,getDocs} from "firebase/firestore";
-import { db } from "../firebaseInit";
-
 function Album({album_id}) {
   const [showForm, setShowForm] = useState(false);
   return (

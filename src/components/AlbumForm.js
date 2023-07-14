@@ -19,6 +19,8 @@ function AlbumForm() {
     };
     const albumsRef = collection(db, "albums");
     const docRef = await addDoc(albumsRef, album);
+    albumNameRef.current.value="";
+    userNameRef.current.value="";
   };
   return (
     <form className="form w-50 p-2">
