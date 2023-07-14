@@ -1,6 +1,8 @@
-.album_container {
-  display: flex;
-  flex-direction: column;
+.album-tile {
+  width: 255px;
+  background-color: aqua;
+  height: 255px;
+  
 }
 .album_thumbnail {
   flex: 3;
@@ -8,4 +10,11 @@
 
 .album_title {
   flex: 1;
+}
+
+.form{
+  background-color: rgb(210, 216, 222);
+  border-radius: 6px;
+  margin: auto;
+  text-align: center;
 }
