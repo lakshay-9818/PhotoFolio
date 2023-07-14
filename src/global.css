@@ -1,6 +1,6 @@
-.album-tile {
+.tile {
   width: 255px;
-  background-color: aqua;
+  background-color: rgb(152, 157, 131);
   height: 255px;
   margin: 10px;
 }

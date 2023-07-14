@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import AlbumList from "./AlbumList";
 import AlbumForm from "./AlbumForm";
+
+
+
 function Gallery() {
   const [showForm, setShowForm] = useState(false);
+ 
   return (
     <div className="m-3">
       {showForm && <AlbumForm />}
