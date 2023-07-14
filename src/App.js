@@ -1,11 +1,14 @@
 import Gallery from "./components/Gallery";
 import Navbar from "./components/Navbar";
-
+import Album from "./components/Album";
+import './global.css'
 function App() {
+    let album_id =20;
   return (
     <div className="App">
       <Navbar />
-      <Gallery />
+      {album_id?<Album album_id={album_id}/>:<Gallery/>}
+      
     </div>
   );
 }
