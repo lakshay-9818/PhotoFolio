@@ -1,26 +1,26 @@
 import React, { useRef } from "react";
-import {
-  doc,
-  collection,
-  addDoc,
-  updateDoc,
-  getDocs,
-} from "firebase/firestore";
+import { doc, collection, addDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebaseInit";
 
-function AlbumForm() {
+function AlbumForm({ setShowForm }) {
   const albumNameRef = useRef(null);
   const userNameRef = useRef(null);
 
   const createNewAlbum = async () => {
-    const album = {
-      albumName: albumNameRef.current.value,
-      userName: userNameRef.current.value,
-    };
-    const albumsRef = collection(db, "albums");
-    const docRef = await addDoc(albumsRef, album);
-    albumNameRef.current.value="";
-    userNameRef.current.value="";
+    try {
+      const album = {
+        albumName: albumNameRef.current.value,
+        userName: userNameRef.current.value,
+      };
+      const albumsRef = collection(db, "Albums");
+      const docRef = await addDoc(albumsRef, album);
+      await setDoc(doc(db, "Images", docRef.id), {});
+      albumNameRef.current.value = "";
+      userNameRef.current.value = "";
+      setShowForm(false);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <form className="form w-50 p-2">

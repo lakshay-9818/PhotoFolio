@@ -1,32 +1,31 @@
-import React,{useRef} from "react";
-import {
-  doc,
-  collection,
-  addDoc,
-  updateDoc,
-  getDocs,
-} from "firebase/firestore";
-import { db } from "../firebaseInit";
+import React from "react";
+import { storage } from "../firebaseInit";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-function ImageForm() {
-  const inputRef = useRef(null);  
-
-  const handleClick = async () => {
-    const img={imgUrl: inputRef.current.value,
-      album_id: 23} 
-    const imagesRef = collection(db, "images");
-    const docRef = await addDoc(imagesRef, img);
-    inputRef.current.value="";
+function ImageForm({ handleImageUpload }) {
+  const handleClick = async (data) => {
+    data.preventDefault();
+    const file = data?.target[0]?.files[0];
+    if (!file) return;
+    const imageRef = ref(storage, `Images/${file?.name}`);
+    try {
+      const uploadedImage = await uploadBytes(imageRef, file);
+      uploadedImage && alert("Image Uploaded");
+      const url = await getDownloadURL(imageRef);
+      handleImageUpload(url);
+    } catch (error) {
+      console.log(" upload error", error.message);
+    }
   };
 
   return (
-    <div className="form w-50 p-2">
+    <form className="form w-50 p-2" onSubmit={handleClick}>
       <h2>Add new Image</h2>
-      <input type="text" ref={inputRef}/>
-      <button type="submit" className="btn btn-success" onClick={handleClick}>
+      <input type="file" />
+      <button type="submit" className="btn btn-success">
         Upload
       </button>
-    </div>
+    </form>
   );
 }
 

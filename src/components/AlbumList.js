@@ -1,4 +1,4 @@
-import React,{useContext,useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AlbumContext } from "../context/AlbumContext";
 import AlbumTile from "./AlbumTile";
 import {
@@ -10,35 +10,31 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebaseInit";
 
-function AlbumList() {
-  const [albums,setAlbums]= useState([]);
-
+function AlbumList(props) {
+  const { showForm } = props;
+  const [albumsList, setAlbumsList] = useState([]);
+  const getData = async () => {
+    const snapshot = await getDocs(collection(db, "Albums"));
+    const albums = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setAlbumsList(albums);
+  };
   useEffect(() => {
     getData();
-  }, [albums]);
-
-  const getData = async () => {
-    const snapshot = await getDocs(collection(db, "albums"));
-     const albumS = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    setAlbums(albumS);
-  }  
-  //album will contain username and albumname
-  const { albumId,handleIdChange } = useContext(AlbumContext);
-  const handleChange=()=>{
-    //handleIdChange(78);
-    console.log("shd",albumId);
-  }
+  }, [showForm]);
+  // //album will contain username and albumname
+  // const { albumId, handleIdChange } = useContext(AlbumContext);
   return (
     <div className="border d-flex flex-wrap justify-content-start">
-     
-      {albums.map((album) => (
+      {albumsList.map((album, index) => (
         <AlbumTile
-         albumName={album.albumName}
-         userName={album.userName}
-         onClick={handleChange}/>
+          key={index}
+          albumName={album.albumName}
+          userName={album.userName}
+          id={album.id}
+        />
       ))}
     </div>
   );
