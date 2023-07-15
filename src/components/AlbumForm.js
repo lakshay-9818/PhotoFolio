@@ -1,43 +1,47 @@
-import React, { useRef } from "react";
-import { doc, collection, addDoc, setDoc } from "firebase/firestore";
-import { db } from "../firebaseInit";
+import React, { useRef} from "react";
 
-function AlbumForm({ setShowForm }) {
+function AlbumForm({createNewAlbum,isRename,doRename}) {
+
   const albumNameRef = useRef(null);
-  const userNameRef = useRef(null);
+  const userNameRef = useRef(null);    
 
-  const createNewAlbum = async () => {
-    try {
-      const album = {
-        albumName: albumNameRef.current.value,
-        userName: userNameRef.current.value,
-      };
-      const albumsRef = collection(db, "Albums");
-      const docRef = await addDoc(albumsRef, album);
-      await setDoc(doc(db, "Images", docRef.id), {});
-      albumNameRef.current.value = "";
-      userNameRef.current.value = "";
-      setShowForm(false);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
   return (
     <form className="form w-50 p-2">
-      <h2>Create an Album</h2>
-      <input type="text" placeholder="Enter album name" ref={albumNameRef} />
-      <input type="text" placeholder="Enter Username" ref={userNameRef} />
+      <h2>{isRename?"Rename Album":"Create an Album" }</h2>
+      <input type="text" placeholder="Enter album name" ref={albumNameRef}/>
+      <input type="text" placeholder="Enter Username" ref={userNameRef}/>
+     
+      {isRename && 
+        <button
+        type="button"
+        className="m-1 btn btn-info"
+        onClick={()=>{
+          doRename(albumNameRef.current.value,userNameRef.current.value,isRename);
+          albumNameRef.current.value = "";
+          userNameRef.current.value = "";
+        }}
+      >Rename</button>
+      }
+
+      {!isRename &&
       <button
         type="button"
         className="m-1 btn btn-success"
-        onClick={createNewAlbum}
+        onClick={()=>{
+          createNewAlbum(albumNameRef.current.value,userNameRef.current.value);
+          albumNameRef.current.value = "";
+          userNameRef.current.value = "";
+        }}
       >
         Create
       </button>
-      <button type="button" className="m-1 btn btn-danger">
+      }
+
+      <button type="reset" className="m-1 btn btn-danger">
         Clear
       </button>
     </form>
+    
   );
 }
 
