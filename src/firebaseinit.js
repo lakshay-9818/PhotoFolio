@@ -6,13 +6,12 @@ import { getStorage } from "firebase/storage";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDhn-FPK6KNSW7C2GFIHIraidllnZZJFBE",
-  authDomain: "photofolio-6b8a9.firebaseapp.com",
-  databaseURL: "https://photofolio-6b8a9-default-rtdb.firebaseio.com",
-  projectId: "photofolio-6b8a9",
-  storageBucket: "photofolio-6b8a9.appspot.com",
-  messagingSenderId: "3639621831",
-  appId: "1:3639621831:web:a54f9fe969b1dfaf0726e2",
+  apiKey: "AIzaSyD5JwrJwDHM8mRY0LTwri9X1IkIarpfeJc",
+  authDomain: "photofolio-b6288.firebaseapp.com",
+  projectId: "photofolio-b6288",
+  storageBucket: "photofolio-b6288.appspot.com",
+  messagingSenderId: "579834413622",
+  appId: "1:579834413622:web:931d2419752429ab3dce97"
 };
 
 // Initialize Firebase
