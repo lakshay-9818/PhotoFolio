@@ -11,7 +11,7 @@ function ImageList() {
 
   useEffect(() => {
     getData();
-  }, [images]);
+  }, []);
 
   const getData = async () => {
     const snapshot = await getDocs(collection(db, "images"));
