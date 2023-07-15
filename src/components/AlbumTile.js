@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AlbumContext } from "../context/AlbumContext";
 
-function AlbumTile({ albumName, userName, id ,handleDlt,handleRename}) {
+function AlbumTile({ albumName, userName, id ,handleDlt,handleRenameClick}) {
  const {handleIdChange} =  useContext(AlbumContext)
   return (
     <div className="tile border border-primary" >
@@ -12,7 +12,11 @@ function AlbumTile({ albumName, userName, id ,handleDlt,handleRename}) {
       <h1 className="album_title">{albumName}</h1>
       <span>{userName}</span>
       <button onClick={()=>{handleDlt(id)}}>X</button>
-      <button onClick={()=>handleRename(id)}>Rename</button>
+
+      <button onClick={()=>{        
+        handleRenameClick(id);
+       }}>Rename</button>
+
     </div>
   );
 }

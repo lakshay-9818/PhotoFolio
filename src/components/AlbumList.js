@@ -3,7 +3,7 @@ import { AlbumContext } from "../context/AlbumContext";
 import AlbumTile from "./AlbumTile";
 
 
-function AlbumList({albumsList,handleDlt,handleRename}) {  
+function AlbumList({albumsList,handleDlt,handleRenameClick}) {  
   
   // //album will contain username and albumname
   // const { albumId, handleIdChange } = useContext(AlbumContext);
@@ -16,7 +16,7 @@ function AlbumList({albumsList,handleDlt,handleRename}) {
           userName={album.userName}
           id={album.id}
           handleDlt={handleDlt}
-          handleRename={handleRename}
+          handleRenameClick={handleRenameClick}
         />
       ))}
     </div>

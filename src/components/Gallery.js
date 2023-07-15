@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Gallery() {
   const [albumsList, setAlbumsList] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [isRename,setIsRename] = useState(null);
 
   const getData = async () => {
     const snapshot = await getDocs(collection(db, "Albums"));
@@ -72,29 +73,36 @@ function Gallery() {
     }
   };
 
-  //function which will rename the album
-  const handleRename = async (id) => {
-    try{
+  // function which will handle click on rename button
+  const handleRenameClick=(id)=>{
+    setIsRename(id);
+    setShowForm(true);    
+  }
 
-    const docRef = doc(db, "Albums", id);
-    console.log(docRef);
+  //function which will rename the album
+  const doRename = async (albumName,userName,id) => {
+    try{
+    const docRef = doc(db, "Albums", id);   
     // Update the document
-    await updateDoc(docRef, {
-      albumName: "New Value 1",
-      userName: "New Value 2",
-    });
+    await updateDoc(docRef, {albumName, userName });
     //********** todo: update "albumList" also here*/ 
-    toast.success(`album renamed id. ${id}`);
+    let aL= albumsList.filter((album)=>album.id!==id);
+    setAlbumsList([{id,albumName,userName},...aL]);
+    toast.success(`album renamed :-)`);
   }catch(error){
-      toast.error(`album not renamed id. ${id}`,error);
+      toast.error(`album not renamed :-( ${error}`);
     }
+    setIsRename(null);
   };
 
   return (
     <>
       <ToastContainer />
       <div className="m-3">
-        {showForm && <AlbumForm createNewAlbum={createNewAlbum} />}
+        {showForm && <AlbumForm         
+        createNewAlbum={createNewAlbum}
+        isRename={isRename}        
+        doRename={doRename}/>}
         <div className="d-flex justify-content-between">
           <h2> Your Albums</h2>
           <button
@@ -110,7 +118,7 @@ function Gallery() {
         </div>
         <AlbumList
           albumsList={albumsList}
-          handleRename={handleRename}
+          handleRenameClick={handleRenameClick}
           handleDlt={handleDlt}
         />
       </div>
