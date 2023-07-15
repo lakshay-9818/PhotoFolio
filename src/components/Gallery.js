@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import AlbumList from "./AlbumList";
 import AlbumForm from "./AlbumForm";
 
-
-
 function Gallery() {
   const [showForm, setShowForm] = useState(false);
- 
+
   return (
     <div className="m-3">
-      {showForm && <AlbumForm />}
+      {showForm && <AlbumForm setShowForm={setShowForm} />}
       <div className="d-flex justify-content-between">
         <h2> Your Albums</h2>
         <button
@@ -23,7 +21,7 @@ function Gallery() {
           {showForm ? "Cancel" : "Add Album"}
         </button>
       </div>
-      <AlbumList />
+      <AlbumList showForm={showForm} />
     </div>
   );
 }

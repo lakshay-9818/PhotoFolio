@@ -1,37 +1,35 @@
-import React,{useState,useEffect} from 'react'
-import "../"
-import ImageTile from './ImageTile'
-// import firebase methods here
-import {doc, collection, addDoc, updateDoc,getDocs} from "firebase/firestore";
+import React, { useState, useEffect, useContext } from "react";
+import "../";
+import ImageTile from "./ImageTile";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { AlbumContext } from "../context/AlbumContext";
 import { db } from "../firebaseInit";
+// import firebase methods here
+function ImageList({ imageUrl }) {
+  const { albumId } = useContext(AlbumContext);
+  const [imageList, setImageList] = useState([]);
 
-function ImageList() {
-  
-  const [images,setImages]= useState([]);
+  const getData = async () => {
+    const docRef = doc(db, "Images", albumId);
+    const urlArray = (await getDoc(docRef))?.data()?.urls || [];
+    imageUrl && urlArray.push(imageUrl);
+    await setDoc(docRef, {
+      urls: urlArray,
+    });
+    setImageList(urlArray);
+  };
 
   useEffect(() => {
     getData();
   }, []);
 
-  const getData = async () => {
-    const snapshot = await getDocs(collection(db, "images"));
-     const imageS = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    setImages(imageS);
-  }  
-
   return (
-    <div className='border d-flex flex-wrap justify-content-start'>
-      
-      {images.map((image) => (
-        <ImageTile
-         image={image}
-         />
+    <div className="border d-flex flex-wrap justify-content-start">
+      {imageList.map((image, index) => (
+        <ImageTile key={index} image={image} />
       ))}
     </div>
-  )
+  );
 }
 
-export default ImageList
+export default ImageList;
