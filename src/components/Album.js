@@ -16,14 +16,20 @@ function Album() {
   const [imageUrl, setImageUrl] = useState("");
   const { albumId, handleIdChange } = useContext(AlbumContext);
   const [imageList, setImageList] = useState([]);
+  const [albumName,setAlbumName]=useState("");
+  const [ownerName,setOwnerName]=useState("");
 
   useEffect(() => {
     getData();
   }, [imageUrl]);
 
-  //retrieve imagesList from db
+  //retrieve imagesList, album details from db
   const getData = async () => {
     const docRef = doc(db, "Images", albumId);
+    const albumRef = doc(db, "Albums", albumId);     
+    const albumData = await getDoc(albumRef);
+    setAlbumName(albumData.data().albumName);
+    setOwnerName(albumData.data().userName);
     const urlArray = (await getDoc(docRef))?.data()?.urls || [];
     imageUrl && urlArray.push({uid:uuidv4(), imageUrl});
     await setDoc(docRef, {
@@ -31,6 +37,9 @@ function Album() {
     });
     setImageList(urlArray);    
   };
+
+  
+
 
   //upload images
    const handleImageUpload = async (data) => {
@@ -74,11 +83,11 @@ function Album() {
        <button className="btn btn-dark" onClick={() => handleIdChange(null)}><i className="bi bi-arrow-return-left px-3"></i></button>
       
       <div>
-        Images in album with id {albumId}
+        <h1 className="d-inline m-2 p-2">Welcome to <strong>"{albumName}"</strong> by <strong>{ownerName}</strong></h1>
         <button
           className={`btn ${
             showForm ? "btn-outline-danger" : "btn-outline-primary"
-          }`}
+          }  position-absolute end-0 m-2`}
           onClick={() => {
             setShowForm(!showForm);
           }}

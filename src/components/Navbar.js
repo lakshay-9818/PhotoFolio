@@ -2,23 +2,15 @@ import React from "react";
 
 function Navbar() {
   return (
-    <nav className="navbar bg-body-tertiary">
+    <nav className="navbar bg-dark">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
-          Navbar
+        <i className="bi bi-images p-1"></i>
+          PhotoFolio
         </a>
       </div>
     </nav>
-
-    // <!-- As a heading -->
-    // <nav className="navbar bg-body-tertiary">
-    //   <div className="container-fluid">
-    //     <span className="navbar-brand mb-0 h1">Navbar</span>
-    //   </div>
-    // </nav>
-    //     <div>
-    //       <h1>Navbar</h1>
-    //     </div>
+    
   );
 }
 

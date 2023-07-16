@@ -1,23 +1,21 @@
 .tile {
   width: 279px;
-  background-color: rgb(152, 157, 131);
+  background-color: rgba(157, 167, 176, 0.864);
   height: 255px;
   margin: 9px;
   overflow: hidden;
 }
 #carouselExampleSlidesOnly{ 
-  border: 3px solid seagreen;
+  padding: 10px; 
   overflow: hidden;
   cursor: pointer;
 }
 
 .carousel-item img{
-  width: 100%;
-  
+  width: 100%;   
 }
 
-.album_title {
-  flex: 1;
+.album_title { 
   text-align: center;
   text-transform: uppercase;
   font-weight: bolder;
@@ -30,16 +28,28 @@
   text-align: center;
 }
 
-.album_image {
+.album_image img {
   object-fit: cover;
-  width: 100%;
-  height: 80%;
+  width: 260px;  
+  height: 180px;
+  overflow: hidden;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+}
+.album_image{
+  padding: 5px;
 }
 
 .card-text{
   display: block;
   text-transform: capitalize;
 }
+.card-contnt{
+  height: 50px;
+  overflow-y: hidden;
+}
 
+.modal-body img{
+  object-fit: fill;
+  width: 100%;
+}
