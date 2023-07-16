@@ -8,7 +8,7 @@ function App() {
       <div className="App">
         <Navbar />    
 
-        <div id="carouselExampleSlidesOnly" className="carousel slide" data-bs-ride="carousel">
+        {/* <div id="carouselExampleSlidesOnly" className="carousel slide" data-bs-ride="carousel">
   <div className="carousel-inner">
     <div className="carousel-item active">
       <img src="" className="d-block w-50" alt="first"/>
@@ -20,7 +20,8 @@ function App() {
       <img src="" className="d-block w-50" alt="third"/>
     </div>
   </div>
-</div>
+</div> */}
+
 
         <MainBody />
       </div>

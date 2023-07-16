@@ -39,21 +39,38 @@ getDownloadURL(ref(storage, 'Images/IMG_20210105_095057.jpg'))
 
   return (
     <div className="m-2 p-2 bg-dark tile">
-      <img className="album_image" src={`${image.imageUrl}`} alt={`${image}`} />
+
+      <div className="album_image" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <img src={`${image.imageUrl}`} alt={`${image}` } />
+      </div>
       
+      {/* this will load a priview using madals of bootstrap */}
+      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog modal-xl">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="exampleModalLabel">Preview</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        <img src={`${image.imageUrl}`}/>
+      </div>
       
+    </div>
+  </div>
+</div>
       
       <button
           className="mx-1 btn btn-danger"
           onClick={()=>dltImage(image.uid)}
         >
-          <i class="bi bi-trash-fill"></i>
+          <i className="bi bi-trash-fill"></i>
         </button>
         <button
           className="mx-1 btn btn-secondary"
           onClick={()=>downloadImg()}
         >
-           <i class="bi bi-download"></i>
+           <i className="bi bi-download"></i>
         </button>
 
     </div>
