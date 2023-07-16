@@ -8,7 +8,7 @@ import {
   setDoc,
   deleteDoc,
   getDocs,
-  updateDoc
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebaseInit";
 import { toast, ToastContainer } from "react-toastify";
@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Gallery() {
   const [albumsList, setAlbumsList] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [isRename,setIsRename] = useState(null);
+  const [isRename, setIsRename] = useState(null);
 
   const getData = async () => {
     const snapshot = await getDocs(collection(db, "Albums"));
@@ -61,37 +61,42 @@ function Gallery() {
 
   //function which will delete the album
   const handleDlt = async (id) => {
-    try {
-      await deleteDoc(doc(db, "Albums", id));
-      await deleteDoc(doc(db, "Images", id));
-      /********todo: delete images from storage of firebase */
-      setAlbumsList(albumsList.filter((al) => al.id !== id));
-      toast.success(`album deleted successfully`);
-      setShowForm(false);
-    } catch {
-      console.log(error);
+    let text = "Are you sure you want to delete this album?";
+    if (confirm(text) == true) {
+      try {
+        await deleteDoc(doc(db, "Albums", id));
+        await deleteDoc(doc(db, "Images", id));
+        /********todo: delete images from storage of firebase */
+        setAlbumsList(albumsList.filter((al) => al.id !== id));
+        toast.success(`album deleted successfully`);
+      } catch {
+        console.log(error);
+      }
+    } else {
+      return;
     }
   };
 
   // function which will handle click on rename button
-  const handleRenameClick=(id)=>{
+  const handleRenameClick = (id) => {
     setIsRename(id);
-    setShowForm(true);    
-  }
+    setShowForm(true);
+  };
 
   //function which will rename the album
-  const doRename = async (albumName,userName,id) => {
-    try{
-    const docRef = doc(db, "Albums", id);   
-    // Update the document
-    await updateDoc(docRef, {albumName, userName });
-    //********** todo: update "albumList" also here*/ 
-    let aL= albumsList.filter((album)=>album.id!==id);
-    setAlbumsList([{id,albumName,userName},...aL]);
-    toast.success(`album renamed :-)`);
-  }catch(error){
+  const doRename = async (albumName, userName, id) => {
+    try {
+      const docRef = doc(db, "Albums", id);
+      // Update the document
+      await updateDoc(docRef, { albumName, userName });
+      //********** todo: update "albumList" also here*/
+      let aL = albumsList.filter((album) => album.id !== id);
+      setAlbumsList([{ id, albumName, userName }, ...aL]);
+      toast.success(`album renamed :-)`);
+    } catch (error) {
       toast.error(`album not renamed :-( ${error}`);
     }
+    setShowForm(false);
     setIsRename(null);
   };
 
@@ -99,10 +104,13 @@ function Gallery() {
     <>
       <ToastContainer />
       <div className="m-3">
-        {showForm && <AlbumForm         
-        createNewAlbum={createNewAlbum}
-        isRename={isRename}        
-        doRename={doRename}/>}
+        {showForm && (
+          <AlbumForm
+            createNewAlbum={createNewAlbum}
+            isRename={isRename}
+            doRename={doRename}
+          />
+        )}
         <div className="d-flex justify-content-between">
           <h2> Your Albums</h2>
           <button
@@ -110,6 +118,7 @@ function Gallery() {
               showForm ? "btn-outline-danger" : "btn-outline-primary"
             }`}
             onClick={() => {
+              setIsRename(null);
               setShowForm(!showForm);
             }}
           >

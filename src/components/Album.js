@@ -71,8 +71,8 @@ function Album() {
       <ToastContainer/>
       {showForm && <ImageForm
        handleImageUpload={handleImageUpload}/> }
-       
-      <button onClick={() => handleIdChange(null)}>Back to Gallery</button>
+       <button className="btn btn-dark" onClick={() => handleIdChange(null)}><i className="bi bi-arrow-return-left px-3"></i></button>
+      
       <div>
         Images in album with id {albumId}
         <button
