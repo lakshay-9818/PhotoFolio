@@ -1,15 +1,26 @@
 .tile {
-  width: 255px;
+  width: 279px;
   background-color: rgb(152, 157, 131);
   height: 255px;
-  margin: 10px;
+  margin: 9px;
+  overflow: hidden;
 }
-.album_thumbnail {
-  flex: 3;
+#carouselExampleSlidesOnly{ 
+  border: 3px solid seagreen;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.carousel-item img{
+  width: 100%;
+  
 }
 
 .album_title {
   flex: 1;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bolder;
 }
 
 .form {
@@ -22,7 +33,13 @@
 .album_image {
   object-fit: cover;
   width: 100%;
-  height: 100%;
+  height: 80%;
   background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
 }
+
+.card-text{
+  display: block;
+  text-transform: capitalize;
+}
+
