@@ -10,32 +10,31 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import { ref,listAll, deleteObject } from "firebase/storage";
 import { db } from "../firebaseInit";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FadeLoader from "react-spinners/FadeLoader";
 
 function Gallery() {
   const [albumsList, setAlbumsList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [isRename, setIsRename] = useState(null);
-
+  let [loading, setLoading] = useState(false);
   const getData = async () => {
+    setLoading(true);
     const snapshot = await getDocs(collection(db, "Albums"));
     const albums = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
     setAlbumsList(albums);
+    setLoading(false);
   };
 
-  useEffect(
-    () => {
-      getData();
-    },
-    [
-      /*albumsList,showForm*/
-    ]
-  );
+  useEffect(() => {
+    getData();
+  }, []);
 
   const createNewAlbum = async (albumname, username) => {
     try {
@@ -66,15 +65,31 @@ function Gallery() {
       try {
         await deleteDoc(doc(db, "Albums", id));
         await deleteDoc(doc(db, "Images", id));
-        /********todo: delete images from storage of firebase */
         setAlbumsList(albumsList.filter((al) => al.id !== id));
-        toast.success(`album deleted successfully`);
-      } catch {
-        console.log(error);
+        /*****todo:delete images from storage of firebase */        
+  //       const desertRef = ref(storage, `Images/${id}`);        
+  //       const { items } = await listAll(desertRef);
+  //     // Delete each file within the folder path
+  //   const deletePromises = items.map((itemRef) =>{
+  //   return new Promise((resolve, reject) => {
+  //     deleteObject(itemRef, (err) => {
+  //       if (err) {
+  //         reject(err);
+  //       } else {
+  //         resolve();
+  //       }
+  //     });
+  //   });
+  // });  
+
+  // // Wait for all delete operations to complete
+  // await Promise.all(deletePromises);
+  toast.success(`album and its files deleted successfully`);      
+      
+      } catch {        
+        toast.error(`Error! album not deleted`);
       }
-    } else {
-      return;
-    }
+    } 
   };
 
   // function which will handle click on rename button
@@ -89,7 +104,7 @@ function Gallery() {
       const docRef = doc(db, "Albums", id);
       // Update the document
       await updateDoc(docRef, { albumName, userName });
-      //********** todo: update "albumList" also here*/
+      //******update "albumList" also here
       let aL = albumsList.filter((album) => album.id !== id);
       setAlbumsList([{ id, albumName, userName }, ...aL]);
       toast.success(`album renamed :-)`);
@@ -100,7 +115,17 @@ function Gallery() {
     setIsRename(null);
   };
 
-  return (
+  return loading ? (
+   <div className="loader"> <FadeLoader
+  color="grey"
+  cssOverride={{}}
+  height={15}
+  loading
+  radius={15}
+  speedMultiplier={1.5}
+  width={5}
+/></div>
+  ) : (
     <>
       <ToastContainer />
       <div className="m-3">
