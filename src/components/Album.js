@@ -19,6 +19,9 @@ function Album() {
   const [imageList, setImageList] = useState([]);
   const [albumName, setAlbumName] = useState("");
   const [ownerName, setOwnerName] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [guid, setGuid]= useState(null);  // global variable for storing uid
+  
   let [loading, setLoading] = useState(false);
   let [miniloading, setMiniLoading] = useState(false);
     
@@ -85,23 +88,32 @@ function Album() {
     }
   };
   
+  const dltImage =(uid)=>{
+    setGuid(uid);
+    setShowModal(true);
+  }
+
+  const handleDialog=(choice)=>{    
+    setShowModal(false);
+    dltImage2(choice);
+  }
 
   //delete image
-  const dltImage = async (uid) => {
-    let text = "Are you sure you want to delete this image?";
-    if (confirm(text) == true) {
+  const dltImage2 = async (choice) => {
+    
+    if (choice) {
       const imageRef = doc(db, "Images", albumId);
       const docSnap = await getDoc(imageRef);
       const urlsArray = docSnap.data().urls;
       console.log(urlsArray);
-      const updatedArray = urlsArray.filter((imgurl) => imgurl.uid !== uid);
+      const updatedArray = urlsArray.filter((imgurl) => imgurl.uid !== guid);
       console.log(updatedArray);
       await updateDoc(imageRef, {
         urls: updatedArray,
       });
       setImageList(updatedArray);
       /******** delete image from storage of firebase */
-      const desertRef = ref(storage, `Images/${albumId}/${uid}`);
+      const desertRef = ref(storage, `Images/${albumId}/${guid}`);
       // Delete the file
       deleteObject(desertRef).then(() => {
         // File deleted successfully
@@ -110,6 +122,7 @@ function Album() {
         // Uh-oh, an error occurred!
       });
     }
+    setGuid(null);
   };
   return loading ? (
     <div className="loader"> <FadeLoader
@@ -128,6 +141,26 @@ function Album() {
       <button className="btn btn-dark" onClick={() => handleIdChange(null)}>
         <i className="bi bi-arrow-return-left px-3"></i>
       </button>
+
+      {showModal &&        
+        <div class="modal d-block">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        You won't be able to undo this image deletion?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onClick={()=>handleDialog(false)}>Close</button>
+        <button type="button" class="btn btn-primary" onClick={()=> handleDialog(true)}>Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+        }
 
       <div>
         <h1 className="d-inline m-2 p-2">
