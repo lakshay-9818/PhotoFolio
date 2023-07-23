@@ -7,9 +7,9 @@ function App() {
     <AlbumProvider>
       <div className="App">
         <Navbar />
-          
-        {/*the MainBody component will give open up either a particular album or entire gallery depending on wheather albumId is null or a value has been asigned to it  */}      
-       <MainBody />
+
+        {/*the MainBody component will give open up either a particular album or entire gallery depending on wheather albumId is null or a value has been asigned to it  */}
+        <MainBody />
       </div>
     </AlbumProvider>
   );
