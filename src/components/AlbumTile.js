@@ -1,15 +1,10 @@
 import React, { useContext} from "react";
 import { AlbumContext } from "../context/AlbumContext";
 
-
-function AlbumTile({ albumName, userName, id, handleDlt, handleRenameClick }) {
- 
+function AlbumTile({ albumName, userName, id, handleDlt, handleRenameClick }) { 
   const { handleIdChange } = useContext(AlbumContext);
-  return (
-    
-    <div className="card tile"> 
-
-      
+  return (    
+    <div className="card tile">     
 
 
 <div onClick={() => handleIdChange(id)}

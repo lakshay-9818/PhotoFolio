@@ -30,7 +30,7 @@
 
 .album_image img {
   object-fit: cover;
-  width: 260px;  
+  width: 255px;  
   height: 180px;
   overflow: hidden;
   background-color: white;
@@ -38,6 +38,7 @@
 }
 .album_image{
   padding: 5px;
+  cursor: pointer;
 }
 
 .card-text{
@@ -52,4 +53,19 @@
 .modal-body img{
   object-fit: fill;
   width: 100%;
+}
+a{
+  text-decoration: none;
+  color: aliceblue;
+}
+
+.nothing{
+  color: grey;
+  text-align: center;
+}
+
+.loader{ 
+  padding: 5%;
+  display: flex;
+  justify-content: center;
 }

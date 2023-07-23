@@ -1,78 +1,65 @@
-import React from "react";
-import {saveAs} from "file-saver";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import React, { useState } from "react";
+import { saveAs } from "file-saver";
 
-function ImageTile({ image,dltImage}) {
+function ImageTile({ image, dltImage }) {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
-  const downloadImg= ()=>{
-    // saveAs(url, "Twitter-logo.png");
-    // const xhr = new XMLHttpRequest();
-    // xhr.responseType = 'blob';
-    // xhr.onload = (event) => {
-    //   const blob = xhr.response;
-    // };
-    // xhr.open('GET', url);
-    // xhr.send();
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setShowModal(true);
+  };
 
-    const storage = getStorage();
-getDownloadURL(ref(storage, 'Images/IMG_20210105_095057.jpg'))
-  .then((url) => {
-    // `url` is the download URL for 'images/stars.jpg'
-    saveAs(url, "Twitter-logo.png");
-    // This can be downloaded directly:
-    // const xhr = new XMLHttpRequest();
-    // xhr.responseType = 'blob';
-    // xhr.onload = (event) => {
-    //   const blob = xhr.response;
-    // };
-    // xhr.open('GET', url);
-    // xhr.send();
+  const handleCloseModal = () => {
+    setSelectedImage("");
+    setShowModal(false);
+  };
 
-    // Or inserted into an <img> element
-    // const img = document.getElementById('myimg');
-    // img.setAttribute('src', url);
-  })
-  .catch((error) => {
-    // Handle any errors
-  });
-  }
+  const downloadImg = (url) => {
+    saveAs(url);
+  };
 
   return (
     <div className="m-2 p-2 bg-dark tile">
-
-      <div className="album_image" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      <img src={`${image.imageUrl}`} alt={`${image}` } />
+      <div
+        className="album_image"
+        onClick={() => handleImageClick(image.imageUrl)}
+      >
+        <img src={`${image.imageUrl}`} alt={`${image}`} />
       </div>
-      
-      {/* this will load a priview using madals of bootstrap */}
-      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog modal-xl">
-    <div className="modal-content">
-      <div className="modal-header">
+      {/* this will load a preview using madals of bootstrap */}
+
+      {showModal && (
+        <div className="modal d-block">
+          <div className="modal-dialog modal-xl modal-dialog-centered">
+            <div className="modal-content">
+            <div className="modal-header">
         <h1 className="modal-title fs-5" id="exampleModalLabel">Preview</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" className="btn-close" onClick={handleCloseModal}></button>
       </div>
-      <div className="modal-body">
-        <img src={`${image.imageUrl}`}/>
-      </div>
-      
-    </div>
-  </div>
-</div>
-      
+              <div className="modal-body">
+                <img
+                  src={selectedImage}
+                  alt="Selected Image"
+                  className="img-fluid"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <button
-          className="mx-1 btn btn-danger"
-          onClick={()=>dltImage(image.uid)}
-        >
-          <i className="bi bi-trash-fill"></i>
-        </button>
-        <button
-          className="mx-1 btn btn-secondary"
-          onClick={()=>downloadImg()}
-        >
-           <i className="bi bi-download"></i>
-        </button>
-
+        className="mx-1 btn btn-danger"
+        onClick={() => dltImage(image.uid)}
+      >
+        <i className="bi bi-trash-fill"></i>
+      </button>
+      <button
+        className="mx-1 btn btn-secondary"
+        onClick={() => downloadImg(image.imageUrl)}
+      >
+        <i className="bi bi-download"></i>
+      </button>
     </div>
   );
 }
