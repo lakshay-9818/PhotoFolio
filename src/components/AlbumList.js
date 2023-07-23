@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AlbumContext } from "../context/AlbumContext";
+import React from "react";
+
 import AlbumTile from "./AlbumTile";
 
 
