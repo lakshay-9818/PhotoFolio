@@ -23,7 +23,7 @@ function Album() {
   const [guid, setGuid]= useState(null);  // global variable for storing uid
   
   let [loading, setLoading] = useState(false);
-  let [miniloading, setMiniLoading] = useState(false);
+  let [uploading, setUploading] = useState(false);
     
   // retrieve imagesList, album details from db
   const getData = async () => {
@@ -53,7 +53,7 @@ function Album() {
   // upload images
   const handleImageUpload = async (data) => {
     data.preventDefault();
-      setMiniLoading(true);
+      setUploading(true);
     try {
       const file = data.target[0].files[0];
 
@@ -79,10 +79,10 @@ function Album() {
         urls: urlArray,
       });  
       setShowForm(false);
-      setMiniLoading(false);      
+      setUploading(false);      
       toast.success(`Image uploaded successfully.`);
       setImageUrl(url);
-    } catch (error) {      
+    } catch (error) {    setUploading(false);  
       console.log("Upload error:", error.message);
       toast.error(`Error uploading image. Please try again.`);
     }
@@ -101,7 +101,7 @@ function Album() {
   //delete image
   const dltImage2 = async (choice) => {
     
-    if (choice) {
+    if (choice===true) {
       const imageRef = doc(db, "Images", albumId);
       const docSnap = await getDoc(imageRef);
       const urlsArray = docSnap.data().urls;
@@ -137,7 +137,7 @@ function Album() {
   ) : (
     <div className="m-3">
       <ToastContainer />
-      {showForm && <ImageForm handleImageUpload={handleImageUpload} miniloading={miniloading}/>}
+      {showForm && <ImageForm handleImageUpload={handleImageUpload} uploading={uploading}/>}
       <button className="btn btn-dark" onClick={() => handleIdChange(null)}>
         <i className="bi bi-arrow-return-left px-3"></i>
       </button>
@@ -148,14 +148,14 @@ function Album() {
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" onClick={()=>handleDialog(false)}></button>
       </div>
       <div class="modal-body">
         You won't be able to undo this image deletion?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" onClick={()=>handleDialog(false)}>Close</button>
-        <button type="button" class="btn btn-primary" onClick={()=> handleDialog(true)}>Save changes</button>
+        <button type="button" class="btn btn-secondary" onClick={()=>handleDialog(false)}>Cancel</button>
+        <button type="button" class="btn btn-primary" onClick={()=> handleDialog(true)}>Delete</button>
       </div>
     </div>
   </div>
