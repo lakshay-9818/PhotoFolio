@@ -1,7 +1,7 @@
 import React from "react";
 import BarLoader from "react-spinners/BarLoader";
-function ImageForm({ handleImageUpload ,miniloading}) {
-  return (miniloading? <div className="loader"><BarLoader/></div>:
+function ImageForm({ handleImageUpload ,uploading}) {
+  return (uploading? <div className="loader"><BarLoader/>uploading..</div>:
     <form className="form w-50 p-2" onSubmit={handleImageUpload}>
       <h2>Add new Image</h2>
       <input type="file" />
