@@ -10,9 +10,9 @@ PhotoFolio is an online photo album react app that allows users to upload, organ
 - The application is user-friendly and has a visually appealing design that encourages users to explore and use the platform regularly.
 
   # TechStack
-  -React
-  -Firebase
-  -Bootstarp
-  -HTML
-  -CSS
-  -JavaScript
+  - React
+  - Firebase
+  - Bootstarp
+  - HTML
+  - CSS
+  - JavaScript
