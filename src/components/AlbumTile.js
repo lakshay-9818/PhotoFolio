@@ -1,13 +1,15 @@
-import React, { useContext} from "react";
-import { AlbumContext } from "../context/AlbumContext";
+import React from "react";
+import { fixAlbumId } from "../redux/reducers/AlbumReducer";
+import { useDispatch } from "react-redux";
+
 
 function AlbumTile({ albumName, userName, id, handleDlt, handleRenameClick }) { 
-  const { handleIdChange } = useContext(AlbumContext);
+  const dispatch= useDispatch();
   return (    
     <div className="card tile">     
 
 
-<div onClick={() => handleIdChange(id)}
+<div onClick={() => dispatch(fixAlbumId(id))}
 id="carouselExampleSlidesOnly" className="carousel slide" data-bs-ride="carousel">
 
   <div className="carousel-inner">

@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { AlbumContext } from "../context/AlbumContext";
+import React, {useState, useEffect } from "react";
+import { selectAlbumId ,fixAlbumId} from "../redux/reducers/AlbumReducer";
 import ImageList from "./ImageList";
 import ImageForm from "./ImageForm";
 import { toast, ToastContainer } from "react-toastify";
@@ -7,20 +7,25 @@ import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import FadeLoader from "react-spinners/FadeLoader";
 
+
 // import firebase methods here
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../firebaseInit";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import { useSelector,useDispatch } from "react-redux";
 
 function Album() {
   const [showForm, setShowForm] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
-  const { albumId, handleIdChange } = useContext(AlbumContext);
+  const { albumId} = useSelector(selectAlbumId);
+  const dispatch= useDispatch();
   const [imageList, setImageList] = useState([]);
   const [albumName, setAlbumName] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [guid, setGuid]= useState(null);  // global variable for storing uid
+
+
   
   let [loading, setLoading] = useState(false);
   let [uploading, setUploading] = useState(false);
@@ -138,7 +143,7 @@ function Album() {
     <div className="m-3">
       <ToastContainer />
       {showForm && <ImageForm handleImageUpload={handleImageUpload} uploading={uploading}/>}
-      <button className="btn btn-dark" onClick={() => handleIdChange(null)}>
+      <button className="btn btn-dark" onClick={() => dispatch(fixAlbumId(null))}>
         <i className="bi bi-arrow-return-left px-3"></i>
       </button>
 

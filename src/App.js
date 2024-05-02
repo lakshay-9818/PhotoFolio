@@ -1,17 +1,26 @@
-import Navbar from "./components/Navbar";
-import "./global.css";
-import { AlbumProvider } from "./context/AlbumContext";
-import MainBody from "./MainBody";
+// App.js
+import React from 'react';
+import Navbar from './components/Navbar';
+import './global.css';
+import MainBody from './MainBody';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
+import LoginPage from './pages/loginPage'; // Import the loginPage component
+
 function App() {
   return (
-    <AlbumProvider>
-      <div className="App">
-        <Navbar />
-
-        {/*the MainBody component will give open up either a particular album or entire gallery depending on wheather albumId is null or a value has been asigned to it  */}
-        <MainBody />
-      </div>
-    </AlbumProvider>
+    <Provider store={store}>
+       <Router>
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<MainBody />} />
+          </Routes>
+        </div>
+      </Router>
+    </Provider>
   );
 }
 
