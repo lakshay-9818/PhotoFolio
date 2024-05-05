@@ -1,3 +1,11 @@
+ .app {
+    margin: 20px auto;
+    width: 400px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+  } 
+  
 .tile {
   width: 279px;
   background-color: rgba(157, 167, 176, 0.864);
