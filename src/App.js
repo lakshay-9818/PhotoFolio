@@ -21,7 +21,7 @@ useEffect(()=>{
       // https://firebase.google.com/docs/reference/js/auth.user
       const uid = user.uid;
       // ...
-      dispatch(login(auth.currentUser.displayName));
+      dispatch(login(auth.currentUser));
     } else {
       // User is signed out
       // ...

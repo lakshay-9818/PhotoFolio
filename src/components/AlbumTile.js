@@ -3,7 +3,7 @@ import { fixAlbumId } from "../redux/reducers/AlbumReducer";
 import { useDispatch } from "react-redux";
 
 
-function AlbumTile({ albumName, userName, id, handleDlt, handleRenameClick }) { 
+function AlbumTile({ album, id, handleDlt, handleRenameClick,isOwner }) { 
   const dispatch= useDispatch();
   return (    
     <div className="card tile">     
@@ -32,10 +32,11 @@ id="carouselExampleSlidesOnly" className="carousel slide" data-bs-ride="carousel
 
       <div className="card-body">
         <div className="card-contnt">
-        <h5 className="m-0 p-0 card-title album_title">{albumName}</h5>
-        <em className="card-text">by:- {userName}</em>
+        <h5 className="m-0 p-0 card-title album_title">{album.albumName}</h5>
+        <em className="card-text">by:- {album.albumOwner}</em>
         </div>
-        <button
+        {isOwner&&<>
+          <button
           className="m-1 btn btn-danger"
           onClick={() => {
             handleDlt(id);
@@ -52,6 +53,7 @@ id="carouselExampleSlidesOnly" className="carousel slide" data-bs-ride="carousel
         >
           <i className="bi bi-pencil-square"></i>
         </button>
+        </>}       
 
       </div>
 

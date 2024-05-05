@@ -6,13 +6,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import FadeLoader from "react-spinners/FadeLoader";
-
+import { useSelector,useDispatch } from "react-redux";
+import { selectAuth } from "../redux/reducers/AuthReducer";
 
 // import firebase methods here
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../firebaseInit";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { useSelector,useDispatch } from "react-redux";
 
 function Album() {
   const [showForm, setShowForm] = useState(false);
@@ -24,7 +24,7 @@ function Album() {
   const [ownerName, setOwnerName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [guid, setGuid]= useState(null);  // global variable for storing uid
-
+  const { uid } = useSelector(selectAuth);
 
   
   let [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ function Album() {
     try {
       const albumData = await getDoc(albumRef);
       setAlbumName(albumData.data().albumName);
-      setOwnerName(albumData.data().userName); 
+      setOwnerName(albumData.data().albumOwner); 
 
       // get image Object array from db
       const urlArray = (await getDoc(docRef))?.data()?.urls || [];
@@ -169,7 +169,7 @@ function Album() {
 
       <div>
         <h1 className="d-inline m-2 p-2">
-          Welcome to <strong>"{albumName}"</strong> by{" "}
+          Welcome to <strong>{albumName}</strong> by{" "}
           <strong>{ownerName}</strong>
         </h1>
         <button

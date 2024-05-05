@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword,updateProfile } from 'firebase/auth';
-import { useNavigate } from "react-router-dom";
 import {auth} from '../firebaseInit';
 import { toast, ToastContainer } from "react-toastify";
 
@@ -9,9 +8,7 @@ import './Form.css'; // Import CSS for form styles
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+  const [displayName, setDisplayName] = useState(''); 
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -23,21 +20,23 @@ function SignUp() {
     updateProfile(user,{displayName:displayName})
             .then(() => {
                 console.log('Display name updated successfully',);
+                window.location.href = '/';
             })
             .catch((error) => {
                 console.log(error);
             });
   })
   .catch((error) => {
-    const errorMessage = error.message;
-    // ..
-    console.log(`Error--->${errorMessage}`);
+    toast.error(error.message, {
+        position: toast.POSITION.TOP_CENTER,
+      });
   });
 
-    navigate("/");
+  
   };
 
-  return (
+  return (<>
+  <ToastContainer/>
     <div className="form-container">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
@@ -56,6 +55,7 @@ function SignUp() {
         <button className="form-button" type="submit">Sign Up</button>
       </form>
     </div>
+    </>
   );
 }
 

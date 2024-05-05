@@ -15,8 +15,11 @@ import { db,storage } from "../firebaseInit";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FadeLoader from "react-spinners/FadeLoader";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../redux/reducers/AuthReducer";
 
 function Gallery() {
+  const {  user,uid } = useSelector(selectAuth);
   const [albumsList, setAlbumsList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [isRename, setIsRename] = useState(null);
@@ -38,11 +41,12 @@ function Gallery() {
     getData();
   }, []);
 
-  const createNewAlbum = async (albumname, username) => {
+  const createNewAlbum = async (albumname) => {
     try {
       const album = {
         albumName: albumname,
-        userName: username,
+        albumOwner:user,
+        uid
       };
       const albumsRef = collection(db, "Albums");
       const docRef = await addDoc(albumsRef, album);
@@ -50,7 +54,8 @@ function Gallery() {
       const temp = {
         id: docRef.id,
         albumName: albumname,
-        userName: username,
+        albumOwner:user,
+        uid
       };
       setAlbumsList([temp, ...albumsList]);
       setShowForm(false);
@@ -111,14 +116,14 @@ function Gallery() {
   };
 
   //function which will rename the album
-  const doRename = async (albumName, userName, id) => {
+  const doRename = async (albumName, id) => {
     try {
       const docRef = doc(db, "Albums", id);
       // Update the document
-      await updateDoc(docRef, { albumName, userName });
+      await updateDoc(docRef, { albumName ,albumOwner:user});
       //******update "albumList" also here
       let aL = albumsList.filter((album) => album.id !== id);
-      setAlbumsList([{ id, albumName, userName }, ...aL]);
+      setAlbumsList([{ id, albumName,albumOwner:user }, ...aL]);
       toast.success(`album renamed :-)`);
     } catch (error) {
       toast.error(`album not renamed :-( ${error}`);

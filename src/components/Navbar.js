@@ -5,6 +5,7 @@ import { selectAuth, logout } from "../redux/reducers/AuthReducer";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import {auth} from '../firebaseInit'
+import { Button } from "react-bootstrap";
 
 function Navbar() {
   const { isAuthenticated, user } = useSelector(selectAuth);
@@ -44,21 +45,21 @@ function Navbar() {
           <i className="bi bi-images p-1"></i>
           {user}
         </a>
-        <button onClick={handleButtonClick}>
+        <Button variant="danger" onClick={handleButtonClick}>
           Logout
-        </button>
+        </Button>
         </>:<>
          <a className="navbar-brand" href="/">
           <i className="bi bi-images p-1"></i>
           Photofolio
         </a>
         <div>
-        <button onClick={handleButtonClick}>
+        <Button  onClick={handleButtonClick}>
           LogIn
-        </button>
-        <button onClick={handleSignUpClick}>
+        </Button>
+        <Button variant="link" onClick={handleSignUpClick}>
           SignUp
-        </button>
+        </Button>
         </div>
         </>
         }
