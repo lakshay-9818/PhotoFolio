@@ -131,10 +131,10 @@ function Gallery() {
     try {
       const docRef = doc(db, "Albums", id);
       // Update the document
-      await updateDoc(docRef, { albumName ,albumOwner:user});
+      await updateDoc(docRef, { albumName ,albumOwner:user,uid});
       //******update "albumList" also here
       let aL = albumsList.filter((album) => album.id !== id);
-      setAlbumsList([{ id, albumName,albumOwner:user }, ...aL]);
+      setAlbumsList([{ id, albumName,albumOwner:user,uid }, ...aL]);
       toast.success(`album renamed :-)`);
     } catch (error) {
       toast.error(`album not renamed :-( ${error}`);
