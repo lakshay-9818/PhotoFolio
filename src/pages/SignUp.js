@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword,updateProfile } from 'firebase/auth';
-import {auth} from '../firebaseInit';
+import {auth,db} from '../firebaseInit';
 import { toast, ToastContainer } from "react-toastify";
+import { doc,setDoc,} from "firebase/firestore";
+
 
 import './Form.css'; // Import CSS for form styles
 
@@ -18,7 +20,8 @@ function SignUp() {
     // Signed up 
     const user = userCredential.user;
     updateProfile(user,{displayName:displayName})
-            .then(() => {
+            .then(async() => {
+              await setDoc(doc(db, "Users",user.uid), {name:displayName, albums:[]});
                 console.log('Display name updated successfully',);
                 window.location.href = '/';
             })

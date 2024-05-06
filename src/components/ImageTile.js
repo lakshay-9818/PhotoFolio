@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { saveAs } from "file-saver";
 
-function ImageTile({ image, dltImage }) {
+function ImageTile({ image, dltImage, isOwner}) {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
 
@@ -48,12 +48,13 @@ function ImageTile({ image, dltImage }) {
           </div>
         </div>
       )}
-      <button
+     {isOwner&& <button
         className="mx-1 btn btn-danger"
         onClick={() => dltImage(image.uid)}
       >
         <i className="bi bi-trash-fill"></i>
       </button>
+      }
       <button
         className="mx-1 btn btn-secondary"
         onClick={() => downloadImg(image.imageUrl)}

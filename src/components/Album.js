@@ -22,24 +22,29 @@ function Album() {
   const [imageList, setImageList] = useState([]);
   const [albumName, setAlbumName] = useState("");
   const [ownerName, setOwnerName] = useState("");
+  const [isOwner,setIsOwner]= useState(false);
   const [showModal, setShowModal] = useState(false);
   const [guid, setGuid]= useState(null);  // global variable for storing uid
   const { uid } = useSelector(selectAuth);
-
+  
   
   let [loading, setLoading] = useState(false);
   let [uploading, setUploading] = useState(false);
-    
+  
   // retrieve imagesList, album details from db
   const getData = async () => {
     setLoading(true);    
+    const userRef = doc(db, "Users", uid);    
     const albumRef = doc(db, "Albums", albumId);
     const docRef = doc(db, "Images", albumId);
     try {
       const albumData = await getDoc(albumRef);
+      const userData= await getDoc(userRef);
+      const albumsInArray= userData.data().albums;
+      setIsOwner(albumsInArray.includes(albumId));
       setAlbumName(albumData.data().albumName);
       setOwnerName(albumData.data().albumOwner); 
-
+      
       // get image Object array from db
       const urlArray = (await getDoc(docRef))?.data()?.urls || [];
       setImageList(urlArray);
@@ -172,6 +177,7 @@ function Album() {
           Welcome to <strong>{albumName}</strong> by{" "}
           <strong>{ownerName}</strong>
         </h1>
+        {isOwner&&
         <button
           className={`btn ${
             showForm ? "btn-outline-danger" : "btn-outline-primary"
@@ -181,9 +187,9 @@ function Album() {
           }}
         >
           {showForm ? "Cancel" : "Add Image"}
-        </button>
+        </button>}
       </div>
-      <ImageList imageList={imageList} dltImage={dltImage} />
+      <ImageList imageList={imageList} isOwner={isOwner} dltImage={dltImage} />
     </div>
   );
 }

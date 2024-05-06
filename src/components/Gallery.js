@@ -9,6 +9,8 @@ import {
   deleteDoc,
   getDocs,
   updateDoc,
+  arrayUnion,
+  arrayRemove 
 } from "firebase/firestore";
 import { ref,listAll, deleteObject } from "firebase/storage";
 import { db,storage } from "../firebaseInit";
@@ -50,13 +52,18 @@ function Gallery() {
       };
       const albumsRef = collection(db, "Albums");
       const docRef = await addDoc(albumsRef, album);
+      //adding albumId to user.albums array
+      const UserRef = doc(db, "Users", uid);
+      await updateDoc(UserRef, {
+        albums: arrayUnion(docRef.id)
+      });
       await setDoc(doc(db, "Images", docRef.id), {});
       const temp = {
         id: docRef.id,
         albumName: albumname,
         albumOwner:user,
         uid
-      };
+       };
       setAlbumsList([temp, ...albumsList]);
       setShowForm(false);
       toast.success("album created successfully.");
@@ -80,6 +87,10 @@ function Gallery() {
       try {
         await deleteDoc(doc(db, "Albums", gid));
         await deleteDoc(doc(db, "Images", gid));
+        const UserRef = doc(db, "Users", uid);
+      await updateDoc(UserRef, {
+        albums: arrayRemove(gid)
+      });
         setAlbumsList(albumsList.filter((al) => al.id !== gid));
         /*****todo:delete images from storage of firebase */        
          const desertRef = ref(storage, `Images/${gid}`);        
