@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "../redux/reducers/AuthReducer";
 
 function Gallery() {
-  const {  user,uid } = useSelector(selectAuth);
+  const {  user,uid,isAuthenticated } = useSelector(selectAuth);
   const [albumsList, setAlbumsList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [isRename, setIsRename] = useState(null);
@@ -185,17 +185,19 @@ function Gallery() {
         }
         <div className="d-flex justify-content-between">
           <h2> Your Albums</h2>
+          {isAuthenticated&& 
           <button
-            className={`btn ${
-              showForm ? "btn-outline-danger" : "btn-outline-primary"
-            }`}
-            onClick={() => {
-              setIsRename(null);
-              setShowForm(!showForm);
-            }}
+          className={`btn ${
+            showForm ? "btn-outline-danger" : "btn-outline-primary"
+          }`}
+          onClick={() => {
+            setIsRename(null);
+            setShowForm(!showForm);
+          }}
           >
             {showForm ? "Cancel" : "Add Album"}
           </button>
+          }
         </div>
         <AlbumList
           albumsList={albumsList}
