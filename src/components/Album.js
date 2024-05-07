@@ -25,7 +25,7 @@ function Album() {
   const [isOwner,setIsOwner]= useState(false);
   const [showModal, setShowModal] = useState(false);
   const [guid, setGuid]= useState(null);  // global variable for storing uid
-  const { uid } = useSelector(selectAuth);
+  const { uid ,isAuthenticated} = useSelector(selectAuth);
   
   
   let [loading, setLoading] = useState(false);
@@ -34,14 +34,16 @@ function Album() {
   // retrieve imagesList, album details from db
   const getData = async () => {
     setLoading(true);    
-    const userRef = doc(db, "Users", uid);    
     const albumRef = doc(db, "Albums", albumId);
     const docRef = doc(db, "Images", albumId);
     try {
       const albumData = await getDoc(albumRef);
-      const userData= await getDoc(userRef);
-      const albumsInArray= userData.data().albums;
-      setIsOwner(albumsInArray.includes(albumId));
+      if(isAuthenticated){
+        const userRef = doc(db, "Users", uid);    
+        const userData= await getDoc(userRef);     
+          const albumsInArray= userData.data().albums;
+        setIsOwner(albumsInArray.includes(albumId));
+      }
       setAlbumName(albumData.data().albumName);
       setOwnerName(albumData.data().albumOwner); 
       
