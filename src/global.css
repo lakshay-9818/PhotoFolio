@@ -32,8 +32,15 @@
 .form {
   background-color: rgb(210, 216, 222);
   border-radius: 6px;
-  margin: auto;
+  margin: 5px auto;
   text-align: center;
+  width: 50vw;
+}
+
+@media screen and (max-width: 428px) {
+  .form {
+    width: 100vw;
+     }
 }
 
 .album_image img {

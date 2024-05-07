@@ -19,6 +19,7 @@ function Navbar() {
         // Sign-out successful
         dispatch(logout())
         console.log("User signed out successfully!");
+        window.location.href= '/';
     })
     .catch((error) => {
         // Handle errors

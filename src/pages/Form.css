@@ -7,6 +7,12 @@
     border-radius: 5px;
     background-color: #f4f4f4;
   }
+
+  @media screen and (max-width: 428px) {
+    .form-container {
+      width: 100vw;
+       }
+  }
   
   .form-group {
     margin-bottom: 10px;

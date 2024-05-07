@@ -6,7 +6,7 @@ function AlbumForm({createNewAlbum,isRename,doRename}) {
 
 
   return (
-    <form className="form w-50 p-2">
+    <form className="form p-2">
       <h2>{isRename?"Rename Album":"Create an Album" }</h2>
       <input type="text" placeholder="Enter album name" ref={albumNameRef}/>
       
